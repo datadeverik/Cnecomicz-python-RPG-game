@@ -1,20 +1,23 @@
 import math
 import random
 
+import dialogue_builder as db
 import dice_roller      as dr
 import global_constants as gc
 import world_map        as wm
 
 class TurnTracker:
 	def __init__(self, player_object, list_of_entities):
-		self.is_actively_tracking = False
-		self.turn_number          = 1
-		self.current_round_actor  = None
-		self.last_round_actor     = None
-		self.current_actor_index  = 0
-		self.player_object        = player_object
-		self.list_of_entities     = list_of_entities
-		self.list_in_turn_order   = [player_object] + list_of_entities
+		self.is_actively_tracking   = False
+		self.turn_number            = 1
+		self.current_round_actor    = None
+		self.last_round_actor       = None
+		self.current_actor_index    = 0
+		self.player_object          = player_object
+		self.list_of_entities       = list_of_entities
+		self.list_in_turn_order     = [player_object] + list_of_entities
+		self.player_selection_index = 0
+		self.player_selection_list  = ["Move", "Attack", "Spells", "Use held item",] #etc
 
 	def begin_tracking_turns(self):
 		self.is_actively_tracking = True
@@ -57,21 +60,60 @@ class TurnTracker:
 			entity.movement_spent_this_turn += math.dist((entity.x, entity.y), (entity.last_known_x, entity.last_known_y))
 			entity.last_known_x = entity.x
 			entity.last_known_y = entity.y
+
+	def player_options_box(self):
+		db.make_text(
+			font=gc.BASICFONT, 
+			text="ACTIONS:", 
+			color=gc.BLACK, 
+			bgcolor=gc.WHITE, 
+			top=gc.ACTIONBUBBLETOP + 2 * gc.FONTSIZE, 
+			left=gc.ACTIONBUBBLELEFT + gc.ACTIONBUBBLEMARGIN, 
+			textwidth=gc.ACTIONBUBBLEWIDTH - 2 * gc.ACTIONBUBBLEMARGIN,
+		)
+		i = 0
+		for option in self.player_selection_list:
+			if i == self.player_selection_index:
+				db.make_text(
+					font=gc.BASICFONT, 
+					text="> " + option, 
+					color=gc.BLACK, 
+					bgcolor=gc.WHITE, 
+					top=gc.ACTIONBUBBLETOP + (3 + i) * gc.FONTSIZE, 
+					left=gc.ACTIONBUBBLELEFT + gc.ACTIONBUBBLEMARGIN, 
+					textwidth=gc.ACTIONBUBBLEWIDTH - 2 * gc.ACTIONBUBBLEMARGIN,
+				)
+			else:
+				db.make_text(
+					font=gc.BASICFONT, 
+					text=option, 
+					color=gc.BLACK, 
+					bgcolor=gc.WHITE, 
+					top=gc.ACTIONBUBBLETOP + (3 + i) * gc.FONTSIZE, 
+					left=gc.ACTIONBUBBLELEFT + gc.ACTIONBUBBLEMARGIN, 
+					textwidth=gc.ACTIONBUBBLEWIDTH - 2 * gc.ACTIONBUBBLEMARGIN,
+				)
+			i += 1
 		
 
 
 	def run(self):
 		print(self.current_round_actor)
-		if self.current_round_actor.name != self.last_round_actor.name:
+		if self.current_round_actor is not self.last_round_actor:
 			self.start_of_turn(self.current_round_actor)
 			self.last_round_actor = self.current_round_actor
-
-		self.move_allotment(self.current_round_actor)
-		if self.current_round_actor != self.player_object:
+		if self.current_round_actor is not self.player_object:
+			### CPU Movement ###
 			destination_x = self.current_round_actor.behavior.target_location[0]
 			destination_y = self.current_round_actor.behavior.target_location[1]
 			if self.current_round_actor.total_path == []:
 				self.current_round_actor.a_star_pathfind(destination_x, destination_y, wm.BLOCKS)
+			self.move_allotment(self.current_round_actor)
+			### CPU Action ###
+		else: 
+			pass
+
+			
 					
 
 

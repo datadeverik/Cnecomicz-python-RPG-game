@@ -9,6 +9,7 @@ import world_map         as wm
 
 
 camera = cc.Camera(x=wm.player.x, y=wm.player.y)
+turntracker = tm.TurnTracker(player_object = wm.player, list_of_entities = wm.ENTITIES)
 
 def quit_game():
 	gc.pygame.quit()
@@ -43,6 +44,10 @@ def draw_to_screen():
 		for entity in wm.ENTITIES:
 			if entity.in_dialogue:
 				entity.write_dialogue_in_speech_bubble()
+	if turntracker.is_actively_tracking and turntracker.current_round_actor is turntracker.player_object:
+		turntracker.player_options_box()
+		action_bubble_rect = gc.pygame.Rect(gc.ACTIONBUBBLELEFT, gc.ACTIONBUBBLETOP, gc.ACTIONBUBBLEWIDTH, gc.ACTIONBUBBLEHEIGHT)
+		gc.pygame.draw.rect(gc.DISPLAYSURF, gc.BLACK, action_bubble_rect, 3)
 	gc.pygame.display.update()
 
 def refresh_formatting_dict_in_dialogue_nodes():
@@ -63,8 +68,6 @@ def refresh_formatting_dict_in_dialogue_nodes():
 	wm.character_creator_node_3.formatting_dict = {
 		"name" : wm.player.name
 	}
-
-turntracker = tm.TurnTracker(player_object = wm.player, list_of_entities = wm.ENTITIES)
 
 while True:
 	wm.player.run()
@@ -93,10 +96,20 @@ while True:
 				for entity in wm.ENTITIES:
 					if entity.in_dialogue:
 						entity.current_response_index -= 1
+				if turntracker.is_actively_tracking and turntracker.current_round_actor is turntracker.player_object:
+					if turntracker.player_selection_index > 0:
+						turntracker.player_selection_index -= 1
+					else:
+						turntracker.player_selection_index = len(turntracker.player_selection_list)-1
 			if event.key in gc.DOWN:
 				for entity in wm.ENTITIES:
 					if entity.in_dialogue:
 						entity.current_response_index += 1
+				if turntracker.is_actively_tracking and turntracker.current_round_actor is turntracker.player_object:
+					if turntracker.player_selection_index < len(turntracker.player_selection_list)-1:
+						turntracker.player_selection_index += 1
+					else:
+						turntracker.player_selection_index = 0
 			if event.key in [gc.K_RSHIFT, gc.K_LSHIFT]:
 				if not turntracker.is_actively_tracking:
 					turntracker.begin_tracking_turns()
