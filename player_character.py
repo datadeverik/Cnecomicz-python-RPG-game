@@ -32,7 +32,7 @@ class Player:
 		self.gold_spent_this_level    = 0
 		self.inventory                = [ ]
 		self.equipment                = { }
-		self.movement_per_turn        = gc.DEFAULTMOVEMENTPERTURN
+		self.movement_per_turn        = gc.DEFAULT_MOVEMENT_PER_TURN
 		self.movement_spent_this_turn = 0
 		self.last_known_x             = x
 		self.last_known_y             = y
@@ -86,9 +86,6 @@ class Player:
 		for block in wm.BLOCKS:
 			if gc.pygame.Rect.colliderect(future_rect, block):
 				result = block
-		# for entity in wm.ENTITIES:
-		# 	if pygame.Rect.colliderect(future_rect, entity):
-		# 		result = entity
 		return result
 				
 
@@ -135,8 +132,6 @@ class Player:
 			if gc.pygame.Rect.colliderect(pointing_rect, entity) and not self.in_dialogue:
 				self.in_dialogue   = True
 				entity.in_dialogue = True
-			# else:
-			# 	print("X")
 
 	def update_dialogue_bool(self):
 		self.in_dialogue = False

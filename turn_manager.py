@@ -62,36 +62,38 @@ class TurnTracker:
 			entity.last_known_y = entity.y
 
 	def player_options_box(self):
+		action_bubble_rect = gc.pygame.Rect(gc.ACTION_BUBBLE_LEFT, gc.ACTION_BUBBLE_TOP, gc.ACTION_BUBBLE_WIDTH, gc.ACTION_BUBBLE_HEIGHT)
+		gc.pygame.draw.rect(gc.DISPLAY_SURF, gc.BLACK, action_bubble_rect, 3)
 		db.make_text(
-			font=gc.BASICFONT, 
+			font=gc.BASIC_FONT, 
 			text="ACTIONS:", 
 			color=gc.BLACK, 
 			bgcolor=gc.WHITE, 
-			top=gc.ACTIONBUBBLETOP + 2 * gc.FONTSIZE, 
-			left=gc.ACTIONBUBBLELEFT + gc.ACTIONBUBBLEMARGIN, 
-			textwidth=gc.ACTIONBUBBLEWIDTH - 2 * gc.ACTIONBUBBLEMARGIN,
+			top=gc.ACTION_BUBBLE_TOP + 2 * gc.FONT_SIZE, 
+			left=gc.ACTION_BUBBLE_LEFT + gc.MARGIN, 
+			textwidth=gc.ACTION_BUBBLE_WIDTH - 2 * gc.MARGIN,
 		)
 		i = 0
 		for option in self.player_selection_list:
 			if i == self.player_selection_index:
 				db.make_text(
-					font=gc.BASICFONT, 
+					font=gc.BASIC_FONT, 
 					text="> " + option, 
 					color=gc.BLACK, 
 					bgcolor=gc.WHITE, 
-					top=gc.ACTIONBUBBLETOP + (3 + i) * gc.FONTSIZE, 
-					left=gc.ACTIONBUBBLELEFT + gc.ACTIONBUBBLEMARGIN, 
-					textwidth=gc.ACTIONBUBBLEWIDTH - 2 * gc.ACTIONBUBBLEMARGIN,
+					top=gc.ACTION_BUBBLE_TOP + (3 + i) * gc.FONT_SIZE, 
+					left=gc.ACTION_BUBBLE_LEFT + gc.MARGIN, 
+					textwidth=gc.ACTION_BUBBLE_WIDTH - 2 * gc.MARGIN,
 				)
 			else:
 				db.make_text(
-					font=gc.BASICFONT, 
+					font=gc.BASIC_FONT, 
 					text=option, 
 					color=gc.BLACK, 
 					bgcolor=gc.WHITE, 
-					top=gc.ACTIONBUBBLETOP + (3 + i) * gc.FONTSIZE, 
-					left=gc.ACTIONBUBBLELEFT + gc.ACTIONBUBBLEMARGIN, 
-					textwidth=gc.ACTIONBUBBLEWIDTH - 2 * gc.ACTIONBUBBLEMARGIN,
+					top=gc.ACTION_BUBBLE_TOP + (3 + i) * gc.FONT_SIZE, 
+					left=gc.ACTION_BUBBLE_LEFT + gc.MARGIN, 
+					textwidth=gc.ACTION_BUBBLE_WIDTH - 2 * gc.MARGIN,
 				)
 			i += 1
 		

@@ -11,7 +11,7 @@ class Camera:
 	def camera_coordinates(self, obj_x, obj_y):
 		"""Input: gameworld coordinates.
 		Output: on-screen coordinates."""
-		return obj_x - self.x + gc.WINDOWWIDTH//2, obj_y - self.y + gc.WINDOWHEIGHT//2
+		return obj_x - self.x + gc.WINDOW_WIDTH//2, obj_y - self.y + gc.WINDOW_HEIGHT//2
 
 	def pan(self, target_x, target_y, speed):
 		delta_x = self.x - target_x

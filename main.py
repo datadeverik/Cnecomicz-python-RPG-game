@@ -16,17 +16,17 @@ def quit_game():
 	sys.exit()
 
 def draw_to_screen():
-	gc.DISPLAYSURF.fill(gc.WHITE)
+	gc.DISPLAY_SURF.fill(gc.WHITE)
 	cam_player_x, cam_player_y = camera.camera_coordinates(wm.player.x, wm.player.y)
-	gc.pygame.draw.rect(gc.DISPLAYSURF, gc.BLUE, gc.pygame.Rect(cam_player_x, cam_player_y, wm.player.width, wm.player.height), 0)
+	gc.pygame.draw.rect(gc.DISPLAY_SURF, gc.BLUE, gc.pygame.Rect(cam_player_x, cam_player_y, wm.player.width, wm.player.height), 0)
 	for block in wm.BLOCKS:
 		cam_block_x, cam_block_y = camera.camera_coordinates(block.left, block.top)
 		cam_block_rect = gc.pygame.Rect(cam_block_x, cam_block_y, block.width, block.height)
-		gc.pygame.draw.rect(gc.DISPLAYSURF, gc.BLACK, cam_block_rect, 0)
+		gc.pygame.draw.rect(gc.DISPLAY_SURF, gc.BLACK, cam_block_rect, 0)
 	for entity in wm.ENTITIES:
 		cam_entity_x, cam_entity_y = camera.camera_coordinates(entity.rect.left, entity.rect.top)
 		cam_entity_rect = gc.pygame.Rect(cam_entity_x, cam_entity_y, entity.width, entity.height)
-		gc.pygame.draw.rect(gc.DISPLAYSURF, gc.GREEN, cam_entity_rect, 0)
+		gc.pygame.draw.rect(gc.DISPLAY_SURF, gc.GREEN, cam_entity_rect, 0)
 	if not wm.player.in_dialogue:
 		camera.pan(
 			wm.player.x,
@@ -35,19 +35,15 @@ def draw_to_screen():
 		)
 	else:
 		camera.pan(
-			wm.player.x + 2/5 * gc.WINDOWWIDTH,
-			wm.player.y - 2/5 * gc.WINDOWHEIGHT,
+			wm.player.x + 2/5 * gc.WINDOW_WIDTH,
+			wm.player.y - 2/5 * gc.WINDOW_HEIGHT,
 			220
 		)
-		speech_bubble_rect = gc.pygame.Rect(gc.SPEECHBUBBLELEFT, gc.SPEECHBUBBLETOP, gc.SPEECHBUBBLEWIDTH, gc.SPEECHBUBBLEHEIGHT)
-		gc.pygame.draw.rect(gc.DISPLAYSURF, gc.BLACK, speech_bubble_rect, 3)
 		for entity in wm.ENTITIES:
 			if entity.in_dialogue:
 				entity.write_dialogue_in_speech_bubble()
 	if turntracker.is_actively_tracking and turntracker.current_round_actor is turntracker.player_object:
 		turntracker.player_options_box()
-		action_bubble_rect = gc.pygame.Rect(gc.ACTIONBUBBLELEFT, gc.ACTIONBUBBLETOP, gc.ACTIONBUBBLEWIDTH, gc.ACTIONBUBBLEHEIGHT)
-		gc.pygame.draw.rect(gc.DISPLAYSURF, gc.BLACK, action_bubble_rect, 3)
 	gc.pygame.display.update()
 
 def refresh_formatting_dict_in_dialogue_nodes():
@@ -119,4 +115,4 @@ while True:
 		turntracker.run()
 	refresh_formatting_dict_in_dialogue_nodes()
 	draw_to_screen()
-	gc.FPSCLOCK.tick(gc.FPS)
+	gc.FPS_CLOCK.tick(gc.FPS)
