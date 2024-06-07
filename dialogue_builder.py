@@ -68,7 +68,7 @@ class Node:
 	def assign_user_text_to_variable(self, user_text):
 		setattr(self.class_owning_attr, self.attr_to_receive_user_text, user_text)
 
-class DialogueBox:
+class TextBox:
 	def __init__(
 		self, 
 		frame_rect, 
@@ -141,7 +141,6 @@ class DialogueBox:
 						)
 					response_index += 1
 
-		response_index = 0
 
 	def generate_options_rect(self):
 		number_of_valid_options = 0
@@ -154,6 +153,38 @@ class DialogueBox:
 			self.frame_rect.width - 2 * gc.MARGIN,
 			self.frame_rect.height
 		)
+
+class DialogueManager:
+	def __init__(self, player_object, entity_object=None):
+		self.player_object = player_object
+		self.entity_object = entity_object
+
+	def end_dialogue(self):
+		self.player_object.in_dialogue = False
+		self.entity_object.in_dialogue = False
+
+	def run(self):
+		self.player_object.in_dialogue = True
+		self.entity_object.in_dialogue = True
+		node = self.entity_object.dialogue_dict[self.entity_object.current_dialogue_node]
+		if node.is_text_entry_node:
+			# dialogue = TextBox(
+			# 
+			# )
+			pass
+		else:
+			dialogue = TextBox(
+				frame_rect=gc.SPEECH_BUBBLE_FRAME_RECT, 
+				header_rect=gc.SPEECH_BUBBLE_HEADER_RECT, 
+				header_text=self.entity_object.name + ":", 
+				main_rect=gc.SPEECH_BUBBLE_MAIN_RECT, 
+				main_text=node.text, 
+				options_dict=node.responses
+			)
+		dialogue.run()
+
+
+
 
 	# 	number_of_valid_options = 0
 

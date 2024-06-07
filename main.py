@@ -1,15 +1,17 @@
 import sys
 
-import camera_controller as cc
-import global_constants  as gc
-import turn_manager      as tm
-import world_map         as wm
+import camera_controller   as cc
+import collision_detection as cd
+import dialogue_builder    as db
+import global_constants    as gc
+import turn_manager        as tm
+import world_map           as wm
 
 
 
 
 camera = cc.Camera(x=wm.player.x, y=wm.player.y)
-turntracker = tm.TurnTracker(player_object = wm.player, list_of_entities = wm.ENTITIES)
+turntracker = tm.TurnTracker(player_object=wm.player, list_of_entities=wm.ENTITIES)
 
 def quit_game():
 	gc.pygame.quit()
@@ -76,12 +78,15 @@ while True:
 			if event.key == gc.K_ESCAPE:
 				quit_game()
 			if event.key in gc.USE:
-				if not wm.player.in_dialogue:
-					wm.player.talk()
-				else:
-					for entity in wm.ENTITIES:
-						if entity.in_dialogue:
-							entity.select_response()
+				dialoguemanager = db.DialogueManager(player_object=wm.player, entity_object=None)
+				if dialoguemanager.entity_object is not None:
+					dialoguemanager.run()
+				# if not wm.player.in_dialogue:
+				# 	wm.player.talk()
+				# else:
+				# 	for entity in wm.ENTITIES:
+				# 		if entity.in_dialogue:
+				# 			entity.select_response()
 				if turntracker.is_actively_tracking:
 					if turntracker.current_actor_index == len(turntracker.list_in_turn_order)-1:
 							turntracker.current_actor_index = 0
@@ -89,18 +94,18 @@ while True:
 						turntracker.current_actor_index += 1
 					turntracker.current_round_actor = turntracker.list_in_turn_order[turntracker.current_actor_index]
 			if event.key in gc.UP:
-				for entity in wm.ENTITIES:
-					if entity.in_dialogue:
-						entity.current_response_index -= 1
+				# for entity in wm.ENTITIES:
+				# 	if entity.in_dialogue:
+				# 		entity.current_response_index -= 1
 				if turntracker.is_actively_tracking and turntracker.current_round_actor is turntracker.player_object:
 					if turntracker.player_selection_index > 0:
 						turntracker.player_selection_index -= 1
 					else:
 						turntracker.player_selection_index = len(turntracker.player_selection_list)-1
 			if event.key in gc.DOWN:
-				for entity in wm.ENTITIES:
-					if entity.in_dialogue:
-						entity.current_response_index += 1
+				# for entity in wm.ENTITIES:
+				# 	if entity.in_dialogue:
+				# 		entity.current_response_index += 1
 				if turntracker.is_actively_tracking and turntracker.current_round_actor is turntracker.player_object:
 					if turntracker.player_selection_index < len(turntracker.player_selection_list)-1:
 						turntracker.player_selection_index += 1

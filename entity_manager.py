@@ -104,17 +104,20 @@ class Entity:
 		self.total_path = total_path
 		
 
-	def write_dialogue_in_speech_bubble(self):
-		node = self.dialogue_dict[self.current_dialogue_node]
-		dialogue = db.DialogueBox(
-			frame_rect=gc.SPEECH_BUBBLE_FRAME_RECT, 
-			header_rect=gc.SPEECH_BUBBLE_HEADER_RECT, 
-			header_text=self.name + ":", 
-			main_rect=gc.SPEECH_BUBBLE_MAIN_RECT, 
-			main_text=node.text, 
-			options_dict=node.responses
-		)
-		dialogue.run()
+	# def write_dialogue_in_speech_bubble(self):
+	# 	node = self.dialogue_dict[self.current_dialogue_node]
+	# 	if node.is_text_entry_node:
+	# 		pass
+	# 	else:
+	# 		dialogue = db.TextBox(
+	# 			frame_rect=gc.SPEECH_BUBBLE_FRAME_RECT, 
+	# 			header_rect=gc.SPEECH_BUBBLE_HEADER_RECT, 
+	# 			header_text=self.name + ":", 
+	# 			main_rect=gc.SPEECH_BUBBLE_MAIN_RECT, 
+	# 			main_text=node.text, 
+	# 			options_dict=node.responses
+	# 		)
+	# 	dialogue.run()
 
 
 

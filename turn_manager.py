@@ -4,7 +4,7 @@ import random
 import dialogue_builder as db
 import dice_roller      as dr
 import global_constants as gc
-import world_map        as wm
+import world_map        as wm # FIX THIS
 
 class TurnTracker:
 	def __init__(self, player_object, list_of_entities):
