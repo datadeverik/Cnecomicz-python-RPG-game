@@ -77,7 +77,11 @@ while True:
 			if event.key == gc.K_ESCAPE:
 				quit_game()
 			if event.key in gc.USE:
+				if dialoguemanager.entity_object is not None:
+					dialoguemanager.select_response()
 				dialoguemanager = db.DialogueManager(player_object=wm.player, entity_object=collisiondetector.the_thing_youre_about_to_hit())
+				
+
 				# if not wm.player.in_dialogue:
 				# 	wm.player.talk()
 				# else:
@@ -92,7 +96,7 @@ while True:
 					turntracker.current_round_actor = turntracker.list_in_turn_order[turntracker.current_actor_index]
 			if event.key in gc.UP:
 				if dialoguemanager.entity_object is not None:
-					dialoguemanager.option_index -= 1
+					dialoguemanager.textbox.option_index -= 1
 				# for entity in wm.ENTITIES:
 				# 	if entity.in_dialogue:
 				# 		entity.current_response_index -= 1
@@ -103,7 +107,7 @@ while True:
 						turntracker.player_selection_index = len(turntracker.player_selection_list)-1
 			if event.key in gc.DOWN:
 				if dialoguemanager.entity_object is not None:
-					dialoguemanager.option_index += 1
+					dialoguemanager.textbox.option_index += 1
 				# for entity in wm.ENTITIES:
 				# 	if entity.in_dialogue:
 				# 		entity.current_response_index += 1

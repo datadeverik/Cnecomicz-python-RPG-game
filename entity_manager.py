@@ -186,15 +186,15 @@ class Entity:
 	# 		self.current_response_str = "A"
 	# 		self.select_response()
 
-	def select_response(self):
-		selected = self.dialogue_dict[self.current_dialogue_node].responses[self.current_response_str]
-		if selected.trigger_list != []:
-			for trigger in selected.trigger_list:
-				trigger()
-		self.current_dialogue_node = selected.next_dialogue_index
+	# def select_response(self):
+	# 	selected = self.dialogue_dict[self.current_dialogue_node].responses[self.current_response_str]
+	# 	if selected.trigger_list != []:
+	# 		for trigger in selected.trigger_list:
+	# 			trigger()
+	# 	self.current_dialogue_node = selected.next_dialogue_index
 
-		self.current_response_index = 0
-		self.current_response_str   = ""
+	# 	self.current_response_index = 0
+	# 	self.current_response_str   = ""
 		
 
 

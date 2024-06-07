@@ -77,7 +77,8 @@ class TextBox:
 		main_rect=None, 
 		main_text=None, 
 		options_rect=None,
-		options_dict={}
+		options_dict={},
+		option_index=0,
 	):
 		self.frame_rect              = frame_rect
 		self.header_rect             = header_rect
@@ -86,7 +87,7 @@ class TextBox:
 		self.main_text               = main_text
 		self.options_rect            = options_rect
 		self.options_dict            = options_dict
-		self.option_index            = 0
+		self.option_index            = option_index
 		self.number_of_valid_options = self.get_number_of_valid_options()
 
 	def get_number_of_valid_options(self):
@@ -143,7 +144,11 @@ class TextBox:
 							left = self.options_rect.left,
 							textwidth = self.options_rect.width,
 						)
+						self.option_str = key
 					response_index += 1
+
+	def get_option_str(self):
+		return 
 
 
 	def generate_options_rect(self):
@@ -155,26 +160,36 @@ class TextBox:
 		)
 
 class DialogueManager:
-	def __init__(self, player_object, entity_object=None):
-		self.player_object = player_object
-		self.entity_object = entity_object
-		self.option_index  = 0
+	def __init__(self, player_object, entity_object=None, textbox=None):
+		self.player_object          = player_object
+		self.entity_object          = entity_object
+		self.textbox                = textbox
 
 	def end_dialogue(self):
 		self.player_object.in_dialogue = False
 		self.entity_object.in_dialogue = False
 
+	def select_response(self):
+		selected = self.entity_object.dialogue_dict[self.entity_object.current_dialogue_node].responses[self.textbox.option_str]
+		if selected.trigger_list != []:
+			for trigger in selected.trigger_list:
+				trigger()
+		self.entity_object.current_dialogue_node = selected.next_dialogue_index
+
+		self.textbox.option_index = 0
+		self.textbox.option_str   = ""
+
 	def run(self):
 		self.player_object.in_dialogue = True
 		self.entity_object.in_dialogue = True
 		node = self.entity_object.dialogue_dict[self.entity_object.current_dialogue_node]
-		if node.is_text_entry_node:
-			# dialogue = TextBox(
+		if node.is_text_entry_node and self.textbox is None:
+			# self.textbox = TextBox(
 			# 
 			# )
 			pass
-		else:
-			dialogue = TextBox(
+		elif not node.is_text_entry_node and self.textbox is None:
+			self.textbox = TextBox(
 				frame_rect=gc.SPEECH_BUBBLE_FRAME_RECT, 
 				header_rect=gc.SPEECH_BUBBLE_HEADER_RECT, 
 				header_text=self.entity_object.name + ":", 
@@ -182,14 +197,13 @@ class DialogueManager:
 				main_text=node.text, 
 				options_dict=node.responses
 			)
-		dialogue.option_index = self.option_index
-		if dialogue.options_dict != {}:
-			if dialogue.option_index < 0:
-				dialogue.option_index = dialogue.number_of_valid_options-1
-			elif dialogue.option_index > dialogue.number_of_valid_options-1:
-				dialogue.option_index = 0
-		dialogue.run()
-		self.option_index = dialogue.option_index
+		if self.textbox.options_dict != {}:
+			if self.textbox.option_index < 0:
+				self.textbox.option_index = self.textbox.number_of_valid_options-1
+			elif self.textbox.option_index > self.textbox.number_of_valid_options-1:
+				self.textbox.option_index = 0
+		self.textbox.run()
+
 
 
 
