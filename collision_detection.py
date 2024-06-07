@@ -1,6 +1,9 @@
-import world_map as wm
+import math
 
-class PlayerCollisionDetector:
+import global_constants as gc
+import world_map        as wm
+
+class CollisionDetector:
 	def __init__(self, player_object):
 		self.player_object = player_object
 
@@ -12,6 +15,6 @@ class PlayerCollisionDetector:
 		future_x, future_y = self.next_destination()
 		future_rect = gc.pygame.Rect(future_x, future_y, self.player_object.height, self.player_object.width)
 		for thing in wm.BLOCKS + wm.ENTITIES:
-			if gc.pygame.Rect.colliderect(future_rect, block):
+			if gc.pygame.Rect.colliderect(future_rect, thing):
 				result = thing
 		return result

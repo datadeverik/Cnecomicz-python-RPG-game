@@ -79,14 +79,22 @@ class TextBox:
 		options_rect=None,
 		options_dict={}
 	):
-		self.frame_rect   = frame_rect
-		self.header_rect  = header_rect
-		self.header_text  = header_text
-		self.main_rect    = main_rect
-		self.main_text    = main_text
-		self.options_rect = options_rect
-		self.options_dict = options_dict
-		self.option_index = 0
+		self.frame_rect              = frame_rect
+		self.header_rect             = header_rect
+		self.header_text             = header_text
+		self.main_rect               = main_rect
+		self.main_text               = main_text
+		self.options_rect            = options_rect
+		self.options_dict            = options_dict
+		self.option_index            = 0
+		self.number_of_valid_options = self.get_number_of_valid_options()
+
+	def get_number_of_valid_options(self):
+		value = 0
+		for key, response in self.options_dict.items():
+			if response.display_bool == True:
+				value += 1
+		return value
 
 	def run(self):
 		gc.pygame.draw.rect(gc.DISPLAY_SURF, gc.BLACK, self.frame_rect, 3)
@@ -113,10 +121,6 @@ class TextBox:
 		if self.options_dict != {}:
 			self.generate_options_rect()
 			response_index = 0
-			number_of_valid_options = 0
-			for key, response in self.options_dict.items():
-				if response.display_bool == True:
-					number_of_valid_options += 1
 			for key, response in self.options_dict.items():
 				if response.display_bool == True:
 					if self.option_index != response_index:
@@ -143,13 +147,9 @@ class TextBox:
 
 
 	def generate_options_rect(self):
-		number_of_valid_options = 0
-		for key, response in self.options_dict.items():
-			if response.display_bool == True:
-				number_of_valid_options += 1
 		self.options_rect = gc.pygame.Rect(
 			self.frame_rect.left + gc.MARGIN,
-			self.frame_rect.bottom  - number_of_valid_options * gc.FONT_SIZE - 2 * gc.FONT_SIZE, 
+			self.frame_rect.bottom  - self.number_of_valid_options * gc.FONT_SIZE - 2 * gc.FONT_SIZE, 
 			self.frame_rect.width - 2 * gc.MARGIN,
 			self.frame_rect.height
 		)
@@ -158,6 +158,7 @@ class DialogueManager:
 	def __init__(self, player_object, entity_object=None):
 		self.player_object = player_object
 		self.entity_object = entity_object
+		self.option_index  = 0
 
 	def end_dialogue(self):
 		self.player_object.in_dialogue = False
@@ -181,7 +182,14 @@ class DialogueManager:
 				main_text=node.text, 
 				options_dict=node.responses
 			)
+		dialogue.option_index = self.option_index
+		if dialogue.options_dict != {}:
+			if dialogue.option_index < 0:
+				dialogue.option_index = dialogue.number_of_valid_options-1
+			elif dialogue.option_index > dialogue.number_of_valid_options-1:
+				dialogue.option_index = 0
 		dialogue.run()
+		self.option_index = dialogue.option_index
 
 
 
