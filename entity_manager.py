@@ -199,8 +199,8 @@ class Entity:
 
 
 
-	def stop_talking(self):
-		self.in_dialogue = False
+	# def stop_talking(self):
+	# 	self.in_dialogue = False
 
 
 	def run(self):

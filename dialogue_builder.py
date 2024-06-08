@@ -160,14 +160,16 @@ class TextBox:
 		)
 
 class DialogueManager:
-	def __init__(self, player_object, entity_object=None, textbox=None):
-		self.player_object          = player_object
-		self.entity_object          = entity_object
-		self.textbox                = textbox
+	def __init__(self, player_object, entity_object=None):
+		self.player_object = player_object
+		self.entity_object = entity_object
+		self.textbox       = None
 
-	def end_dialogue(self):
+
+	def end_dialogue(self):   
 		self.player_object.in_dialogue = False
 		self.entity_object.in_dialogue = False
+		self.entity_object             = None
 
 	def select_response(self):
 		selected = self.entity_object.dialogue_dict[self.entity_object.current_dialogue_node].responses[self.textbox.option_str]
@@ -175,13 +177,11 @@ class DialogueManager:
 			for trigger in selected.trigger_list:
 				trigger()
 		self.entity_object.current_dialogue_node = selected.next_dialogue_index
-
 		self.textbox.option_index = 0
 		self.textbox.option_str   = ""
+		# self.update_textbox()
 
-	def run(self):
-		self.player_object.in_dialogue = True
-		self.entity_object.in_dialogue = True
+	def update_textbox(self):
 		node = self.entity_object.dialogue_dict[self.entity_object.current_dialogue_node]
 		if node.is_text_entry_node and self.textbox is None:
 			# self.textbox = TextBox(
@@ -197,6 +197,11 @@ class DialogueManager:
 				main_text=node.text, 
 				options_dict=node.responses
 			)
+
+	def run(self):
+		self.player_object.in_dialogue = True
+		self.entity_object.in_dialogue = True
+		self.update_textbox()
 		if self.textbox.options_dict != {}:
 			if self.textbox.option_index < 0:
 				self.textbox.option_index = self.textbox.number_of_valid_options-1
