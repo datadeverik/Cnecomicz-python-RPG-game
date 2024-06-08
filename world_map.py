@@ -17,7 +17,7 @@ BLOCKS = [
 	gc.pygame.Rect(300,200,20,80),
 	gc.pygame.Rect(400,400,200,100),
 	gc.pygame.Rect(-10,-10,10,500),
-	gc.pygame.Rect(-10,-10,500,10),
+	# gc.pygame.Rect(-10,-10,500,10),
 	# gc.pygame.Rect(-10,400,500,10),
 	gc.pygame.Rect(490,-10,10,500),
 	gc.pygame.Rect(-50,200,200,10),

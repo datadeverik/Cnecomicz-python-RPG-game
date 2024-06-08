@@ -77,6 +77,7 @@ class TextBox:
 		header_text=None, 
 		main_rect=None, 
 		main_text=None, 
+		main_formatting_dict = {},
 		options_rect=None,
 		options_dict={},
 		option_index=0,
@@ -86,6 +87,7 @@ class TextBox:
 		self.header_text             = header_text
 		self.main_rect               = main_rect
 		self.main_text               = main_text
+		self.main_formatting_dict    = main_formatting_dict
 		self.options_rect            = options_rect
 		self.options_dict            = options_dict
 		self.option_index            = option_index
@@ -119,6 +121,7 @@ class TextBox:
 				top = self.main_rect.top,
 				left = self.main_rect.left,
 				textwidth = self.main_rect.width,
+				formatting_dict = self.main_formatting_dict
 			)
 		if self.options_dict != {}:
 			self.generate_options_rect()
@@ -180,8 +183,8 @@ class DialogueManager:
 				print(f"print 1: {self.entity_object}")
 				trigger()
 		self.entity_object.current_dialogue_node = selected.next_dialogue_index
-		self.textbox.option_index = 0
-		self.textbox.option_str   = ""
+		self.textbox = None
+		self.update_textbox()
 		if selected.is_end_of_dialogue:
 			self.end_dialogue()
 
@@ -199,7 +202,8 @@ class DialogueManager:
 				header_text=self.entity_object.name + ":", 
 				main_rect=gc.SPEECH_BUBBLE_MAIN_RECT, 
 				main_text=node.text, 
-				options_dict=node.responses
+				options_dict=node.responses,
+				main_formatting_dict=node.formatting_dict
 			)
 
 	def run(self):
