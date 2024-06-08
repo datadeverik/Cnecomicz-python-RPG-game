@@ -2,6 +2,7 @@ import sys
 
 import camera_controller   as cc
 import collision_detection as cd
+import dialogue_builder    as db
 import global_constants    as gc
 import turn_manager        as tm
 import world_map           as wm
@@ -11,6 +12,7 @@ import world_map           as wm
 
 camera = cc.Camera(x=wm.player.x, y=wm.player.y)
 collisiondetector = cd.CollisionDetector(player_object=wm.player)
+dialoguemanager = db.DialogueManager(player_object=wm.player, entity_object=None)
 turntracker = tm.TurnTracker(player_object=wm.player, list_of_entities=wm.ENTITIES)
 
 def quit_game():
@@ -75,12 +77,12 @@ while True:
 			if event.key == gc.K_ESCAPE:
 				quit_game()
 			if event.key in gc.USE:
-				if wm.dialoguemanager.entity_object in wm.ENTITIES:
-					wm.dialoguemanager.select_response()
+				if dialoguemanager.entity_object in wm.ENTITIES:
+					dialoguemanager.select_response()
 				else:
 					potential_conversation_partner = collisiondetector.the_thing_youre_about_to_hit()
 					if potential_conversation_partner in wm.ENTITIES:
-						wm.dialoguemanager = wm.db.DialogueManager(player_object=wm.player, entity_object=potential_conversation_partner)
+						dialoguemanager = db.DialogueManager(player_object=wm.player, entity_object=potential_conversation_partner)
 				
 				
 
@@ -97,8 +99,8 @@ while True:
 						turntracker.current_actor_index += 1
 					turntracker.current_round_actor = turntracker.list_in_turn_order[turntracker.current_actor_index]
 			if event.key in gc.UP:
-				if wm.dialoguemanager.entity_object is not None:
-					wm.dialoguemanager.textbox.option_index -= 1
+				if dialoguemanager.entity_object is not None:
+					dialoguemanager.textbox.option_index -= 1
 				# for entity in wm.ENTITIES:
 				# 	if entity.in_dialogue:
 				# 		entity.current_response_index -= 1
@@ -108,8 +110,8 @@ while True:
 					else:
 						turntracker.player_selection_index = len(turntracker.player_selection_list)-1
 			if event.key in gc.DOWN:
-				if wm.dialoguemanager.entity_object is not None:
-					wm.dialoguemanager.textbox.option_index += 1
+				if dialoguemanager.entity_object is not None:
+					dialoguemanager.textbox.option_index += 1
 				# for entity in wm.ENTITIES:
 				# 	if entity.in_dialogue:
 				# 		entity.current_response_index += 1
@@ -125,8 +127,8 @@ while True:
 					turntracker.end_tracking_turns()
 	if turntracker.is_actively_tracking:
 		turntracker.run()
-	if wm.dialoguemanager.entity_object in wm.ENTITIES:
-		wm.dialoguemanager.run()
+	if dialoguemanager.entity_object in wm.ENTITIES:
+		dialoguemanager.run()
 	refresh_formatting_dict_in_dialogue_nodes()
 	draw_to_screen()
 	gc.FPS_CLOCK.tick(gc.FPS)

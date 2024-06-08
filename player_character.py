@@ -125,24 +125,11 @@ class Player:
 							self.x += self.speed
 		return self.x, self.y
 
-	def talk(self):
-		pointing_x, pointing_y = self.next_destination(self.angle, self.x, self.y, self.speed)
-		pointing_rect = gc.pygame.Rect(pointing_x, pointing_y, self.height, self.width)
-		for entity in wm.ENTITIES:
-			if gc.pygame.Rect.colliderect(pointing_rect, entity) and not self.in_dialogue:
-				self.in_dialogue   = True
-				entity.in_dialogue = True
-
-	def update_dialogue_bool(self):
-		self.in_dialogue = False
-		for entity in wm.ENTITIES:
-			if entity.in_dialogue:
-				self.in_dialogue = True
-				self.can_move    = False
-
 
 
 
 	def run(self):
 		self.player_movement()
-		self.update_dialogue_bool()
+		self.can_move = True
+		if self.in_dialogue:
+			self.can_move = False

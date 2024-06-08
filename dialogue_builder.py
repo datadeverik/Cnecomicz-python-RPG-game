@@ -49,10 +49,11 @@ def keylogger():
 		gc.pygame.display.update()
 
 class Response:
-	def __init__(self, text, next_dialogue_index, trigger_list=[], display_bool=True, formatting_dict={}):
+	def __init__(self, text, next_dialogue_index, trigger_list=[], is_end_of_dialogue=False, display_bool=True, formatting_dict={}):
 		self.text = text
 		self.next_dialogue_index = next_dialogue_index
 		self.trigger_list = trigger_list
+		self.is_end_of_dialogue = is_end_of_dialogue
 		self.display_bool = display_bool
 		self.formatting_dict = formatting_dict
 
@@ -167,6 +168,7 @@ class DialogueManager:
 
 
 	def end_dialogue(self):   
+		print(f"print 2: {self.entity_object}")
 		self.player_object.in_dialogue = False
 		self.entity_object.in_dialogue = False
 		self.entity_object             = None
@@ -175,11 +177,13 @@ class DialogueManager:
 		selected = self.entity_object.dialogue_dict[self.entity_object.current_dialogue_node].responses[self.textbox.option_str]
 		if selected.trigger_list != []:
 			for trigger in selected.trigger_list:
+				print(f"print 1: {self.entity_object}")
 				trigger()
 		self.entity_object.current_dialogue_node = selected.next_dialogue_index
 		self.textbox.option_index = 0
 		self.textbox.option_str   = ""
-		# self.update_textbox()
+		if selected.is_end_of_dialogue:
+			self.end_dialogue()
 
 	def update_textbox(self):
 		node = self.entity_object.dialogue_dict[self.entity_object.current_dialogue_node]
@@ -208,48 +212,6 @@ class DialogueManager:
 			elif self.textbox.option_index > self.textbox.number_of_valid_options-1:
 				self.textbox.option_index = 0
 		self.textbox.run()
-
-
-
-
-
-	# 	number_of_valid_options = 0
-
-	# 	if not node.is_text_entry_node:
-	# 		for i, response in node.responses.items():
-	# 			if response.display_bool == True:
-	# 				number_of_valid_options += 1
-	# 		for i, response in node.responses.items():
-	# 			if response.display_bool == True:
-	# 				if self.current_response_index != response_index:
-	# 					db.make_text(
-	# 						font = gc.BASIC_FONT,
-	# 						text = node.responses[i].text, 
-	# 						color = gc.BLACK, 
-	# 						bgcolor = gc.WHITE, 
-	# 						top = gc.SPEECH_BUBBLE_BOTTOM - gc.MARGIN + (response_index - number_of_valid_options) * gc.FONT_SIZE, 
-	# 						left = gc.SPEECH_BUBBLE_LEFT + gc.MARGIN,
-	# 						textwidth = gc.SPEECH_BUBBLE_WIDTH - 2 * gc.MARGIN,
-	# 						formatting_dict = node.responses[i].formatting_dict
-	# 					)
-	# 				else:
-	# 					db.make_text(
-	# 						font = gc.BASIC_FONT,
-	# 						text = "> " + node.responses[i].text, 
-	# 						color = gc.BLACK, 
-	# 						bgcolor = gc.WHITE, 
-	# 						top = gc.SPEECH_BUBBLE_BOTTOM - gc.MARGIN + (response_index - number_of_valid_options) * gc.FONT_SIZE, 
-	# 						left = gc.SPEECH_BUBBLE_LEFT + gc.MARGIN,
-	# 						textwidth = gc.SPEECH_BUBBLE_WIDTH - 2 * gc.MARGIN,
-	# 						formatting_dict = node.responses[i].formatting_dict
-	# 					)
-	# 					self.current_response_str = i
-	# 				response_index += 1
-	# 				if self.current_response_index < 0:
-	# 					self.current_response_index = number_of_valid_options - 1
-	# 				if self.current_response_index > number_of_valid_options - 1:
-	# 					self.current_response_index = 0
-
 
 
 

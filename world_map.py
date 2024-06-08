@@ -7,8 +7,6 @@ import player_character as pc
 
 player = pc.Player(x=0, y=0)
 
-dialoguemanager = db.DialogueManager(player_object=player, entity_object=None)
-
 BLOCKS = [
 	gc.pygame.Rect(100,100,10,10),
 	gc.pygame.Rect(100,110,10,10),
@@ -86,7 +84,7 @@ character_creator_node_2 = db.Node(text="You selected {character_class}. What is
 
 character_creator_node_3 = db.Node(text="Your name is {name}.",
 	responses={
-		"A" : db.Response("Thank you. Goodbye.", 3, [dialoguemanager.end_dialogue]),
+		"A" : db.Response("Thank you. Goodbye.", 3, is_end_of_dialogue=True),
 	}
 
 )
@@ -125,8 +123,8 @@ character_creator.dialogue_dict = {
 
 guy1.dialogue_dict = {
 	0 : db.Node("Yes or no?", { 
-			"A" : db.Response("Yes.", 0, [dialoguemanager.end_dialogue]),
-			"B" : db.Response("No.", 0, [lambda: guy1.a_star_pathfind(-100,-100, BLOCKS), dialoguemanager.end_dialogue]),
-			"C" : db.Response("N/A.", 0, [dialoguemanager.end_dialogue], False),
+			"A" : db.Response("Yes.", 0, is_end_of_dialogue=True),
+			"B" : db.Response("No.", 0, [lambda: guy1.a_star_pathfind(-100,-100, BLOCKS)], is_end_of_dialogue=True),
+			"C" : db.Response("N/A.", 0, is_end_of_dialogue=True, display_bool=False),
 		}),
 }
