@@ -227,6 +227,10 @@ class DialogueManager:
 				self.textbox.option_index = 0
 		self.textbox.run()
 
+	def refresh_formatting_dict_in_dialogue_nodes():
+		
+		pass
+
 
 
 			

@@ -37,9 +37,6 @@ class Player:
 		self.last_known_x             = x
 		self.last_known_y             = y
 
-	def assign_value_to_variable(self, value, variable):
-		variable = value
-
 
 	def get_direction(self):
 		direction = ""

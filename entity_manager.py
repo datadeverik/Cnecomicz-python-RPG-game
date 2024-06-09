@@ -20,8 +20,6 @@ class Entity:
 		self.dialogue_dict            = dialogue_dict
 		self.current_dialogue_node    = 0
 		self.in_dialogue              = False
-		self.current_response_index   = 0
-		self.current_response_str     = ""
 		self.destination_x            = x
 		self.destination_y            = y
 		self.speed                    = speed
@@ -102,108 +100,12 @@ class Entity:
 			current_node = came_from_dictionary[current_node]
 			total_path.insert(0, current_node)
 		self.total_path = total_path
-		
-
-	# def write_dialogue_in_speech_bubble(self):
-	# 	node = self.dialogue_dict[self.current_dialogue_node]
-	# 	if node.is_text_entry_node:
-	# 		pass
-	# 	else:
-	# 		dialogue = db.TextBox(
-	# 			frame_rect=gc.SPEECH_BUBBLE_FRAME_RECT, 
-	# 			header_rect=gc.SPEECH_BUBBLE_HEADER_RECT, 
-	# 			header_text=self.name + ":", 
-	# 			main_rect=gc.SPEECH_BUBBLE_MAIN_RECT, 
-	# 			main_text=node.text, 
-	# 			options_dict=node.responses
-	# 		)
-	# 	dialogue.run()
-
-
-
-	# def write_dialogue_in_speech_bubble(self):
-	# 	speech_bubble_rect = gc.pygame.Rect(gc.SPEECH_BUBBLE_LEFT, gc.SPEECH_BUBBLE_TOP, gc.SPEECH_BUBBLE_WIDTH, gc.SPEECH_BUBBLE_HEIGHT)
-	# 	gc.pygame.draw.rect(gc.DISPLAY_SURF, gc.BLACK, speech_bubble_rect, 3)
-	# 	node = self.dialogue_dict[self.current_dialogue_node]
-	# 	db.make_text(
-	# 		font = gc.BASIC_FONT,
-	# 		text = self.name + ":",
-	# 		color = gc.BLACK,
-	# 		bgcolor = gc.WHITE,
-	# 		top = gc.SPEECH_BUBBLE_TOP + gc.MARGIN,
-	# 		left = gc.SPEECH_BUBBLE_LEFT + gc.MARGIN,
-	# 		textwidth = gc.SPEECH_BUBBLE_WIDTH - 2 * gc.MARGIN,
-	# 	)
-	# 	db.make_text(
-	# 		font = gc.BASIC_FONT,
-	# 		text = node.text, 
-	# 		color = gc.BLACK, 
-	# 		bgcolor = gc.WHITE, 
-	# 		top = gc.SPEECH_BUBBLE_TOP + gc.MARGIN + gc.FONT_SIZE,
-	# 		left = gc.SPEECH_BUBBLE_LEFT + gc.MARGIN, 
-	# 		textwidth = gc.SPEECH_BUBBLE_WIDTH - 2 * gc.MARGIN,
-	# 		formatting_dict = node.formatting_dict
-	# 	)
-	# 	response_index = 0
-	# 	number_of_valid_options = 0
-
-	# 	if not node.is_text_entry_node:
-	# 		for i, response in node.responses.items():
-	# 			if response.display_bool == True:
-	# 				number_of_valid_options += 1
-	# 		for i, response in node.responses.items():
-	# 			if response.display_bool == True:
-	# 				if self.current_response_index != response_index:
-	# 					db.make_text(
-	# 						font = gc.BASIC_FONT,
-	# 						text = node.responses[i].text, 
-	# 						color = gc.BLACK, 
-	# 						bgcolor = gc.WHITE, 
-	# 						top = gc.SPEECH_BUBBLE_BOTTOM - gc.MARGIN + (response_index - number_of_valid_options) * gc.FONT_SIZE, 
-	# 						left = gc.SPEECH_BUBBLE_LEFT + gc.MARGIN,
-	# 						textwidth = gc.SPEECH_BUBBLE_WIDTH - 2 * gc.MARGIN,
-	# 						formatting_dict = node.responses[i].formatting_dict
-	# 					)
-	# 				else:
-	# 					db.make_text(
-	# 						font = gc.BASIC_FONT,
-	# 						text = "> " + node.responses[i].text, 
-	# 						color = gc.BLACK, 
-	# 						bgcolor = gc.WHITE, 
-	# 						top = gc.SPEECH_BUBBLE_BOTTOM - gc.MARGIN + (response_index - number_of_valid_options) * gc.FONT_SIZE, 
-	# 						left = gc.SPEECH_BUBBLE_LEFT + gc.MARGIN,
-	# 						textwidth = gc.SPEECH_BUBBLE_WIDTH - 2 * gc.MARGIN,
-	# 						formatting_dict = node.responses[i].formatting_dict
-	# 					)
-	# 					self.current_response_str = i
-	# 				response_index += 1
-	# 				if self.current_response_index < 0:
-	# 					self.current_response_index = number_of_valid_options - 1
-	# 				if self.current_response_index > number_of_valid_options - 1:
-	# 					self.current_response_index = 0
-	# 	else:
-	# 		node.assign_user_text_to_variable(db.keylogger())
-	# 		self.current_response_str = "A"
-	# 		self.select_response()
-
-	# def select_response(self):
-	# 	selected = self.dialogue_dict[self.current_dialogue_node].responses[self.current_response_str]
-	# 	if selected.trigger_list != []:
-	# 		for trigger in selected.trigger_list:
-	# 			trigger()
-	# 	self.current_dialogue_node = selected.next_dialogue_index
-
-	# 	self.current_response_index = 0
-	# 	self.current_response_str   = ""
-		
-
-
-
-	# def stop_talking(self):
-	# 	self.in_dialogue = False
 
 
 	def run(self):
+		self.can_move = True
+		if self.in_dialogue:
+			self.can_move = False
 		self.rect = gc.pygame.Rect(self.x, self.y, self.width, self.height)
 		if self.total_path != []:
 			path_node_rect = gc.pygame.Rect(

@@ -46,25 +46,6 @@ def draw_to_screen():
 		turntracker.player_options_box()
 	gc.pygame.display.update()
 
-def refresh_formatting_dict_in_dialogue_nodes():
-	# By hand, we will need to write every "formatting" value 
-	# for any node whose formatting is not the empty dictionary
-	# into this function.
-	wm.character_creator_node_1.formatting_dict = {
-		"charisma" : wm.player.charisma, 
-		"constitution" : wm.player.constitution,
-		"dexterity" : wm.player.dexterity,
-		"intelligence" : wm.player.intelligence,
-		"strength" : wm.player.strength,
-		"wisdom" : wm.player.wisdom
-	}
-	wm.character_creator_node_2.formatting_dict = {
-		"character_class" : wm.player.character_class
-	}
-	wm.character_creator_node_3.formatting_dict = {
-		"name" : wm.player.name
-	}
-
 while True:
 	gc.DISPLAY_SURF.fill(gc.WHITE)
 	wm.player.run()
@@ -83,15 +64,6 @@ while True:
 					potential_conversation_partner = collisiondetector.the_thing_youre_about_to_hit()
 					if potential_conversation_partner in wm.ENTITIES:
 						dialoguemanager = db.DialogueManager(player_object=wm.player, entity_object=potential_conversation_partner)
-				
-				
-
-				# if not wm.player.in_dialogue:
-				# 	wm.player.talk()
-				# else:
-				# 	for entity in wm.ENTITIES:
-				# 		if entity.in_dialogue:
-				# 			entity.select_response()
 				if turntracker.is_actively_tracking:
 					if turntracker.current_actor_index == len(turntracker.list_in_turn_order)-1:
 							turntracker.current_actor_index = 0
@@ -101,9 +73,6 @@ while True:
 			if event.key in gc.UP:
 				if dialoguemanager.entity_object is not None:
 					dialoguemanager.textbox.option_index -= 1
-				# for entity in wm.ENTITIES:
-				# 	if entity.in_dialogue:
-				# 		entity.current_response_index -= 1
 				if turntracker.is_actively_tracking and turntracker.current_round_actor is turntracker.player_object:
 					if turntracker.player_selection_index > 0:
 						turntracker.player_selection_index -= 1
@@ -112,9 +81,6 @@ while True:
 			if event.key in gc.DOWN:
 				if dialoguemanager.entity_object is not None:
 					dialoguemanager.textbox.option_index += 1
-				# for entity in wm.ENTITIES:
-				# 	if entity.in_dialogue:
-				# 		entity.current_response_index += 1
 				if turntracker.is_actively_tracking and turntracker.current_round_actor is turntracker.player_object:
 					if turntracker.player_selection_index < len(turntracker.player_selection_list)-1:
 						turntracker.player_selection_index += 1
@@ -129,7 +95,6 @@ while True:
 		turntracker.run()
 	if dialoguemanager.entity_object in wm.ENTITIES:
 		dialoguemanager.run()
-	refresh_formatting_dict_in_dialogue_nodes()
 	draw_to_screen()
 	print(f"charisma: {wm.player.charisma}, character_class: {wm.player.character_class}, name: {wm.player.name}")
 	gc.FPS_CLOCK.tick(gc.FPS)

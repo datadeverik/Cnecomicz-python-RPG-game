@@ -70,12 +70,23 @@ character_creator_node_1 = db.Node(text="Your stats are {charisma} charisma, "\
 			"H" : db.Response("Paladin", 2, [lambda: setattr(player, "character_class", "Paladin")]),
 			"I" : db.Response("Ranger", 2, [lambda: setattr(player, "character_class", "Ranger")]),
 			"J" : db.Response("Warlock", 2, [lambda: setattr(player, "character_class", "Warlock")]),
+	},
+	formatting_dict={
+		"charisma" : player.charisma, 
+		"constitution" : player.constitution,
+		"dexterity" : player.dexterity,
+		"intelligence" : player.intelligence,
+		"strength" : player.strength,
+		"wisdom" : player.wisdom
 	}
 )
 
 character_creator_node_2 = db.Node(text="You selected {character_class}. What is your name?",
 	responses={
 		"A" : db.Response("Yaay", 3, []),
+	},
+	formatting_dict={
+		"character_class" : player.character_class
 	},
 	is_text_entry_node=True,
 	class_owning_attr=player,
@@ -85,8 +96,10 @@ character_creator_node_2 = db.Node(text="You selected {character_class}. What is
 character_creator_node_3 = db.Node(text="Your name is {name}.",
 	responses={
 		"A" : db.Response("Thank you. Goodbye.", 3, is_end_of_dialogue=True),
+	},
+	formatting_dict={
+		"name" : player.name
 	}
-
 )
 
 character_creator.dialogue_dict = {
