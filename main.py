@@ -131,4 +131,5 @@ while True:
 		dialoguemanager.run()
 	refresh_formatting_dict_in_dialogue_nodes()
 	draw_to_screen()
+	print(f"charisma: {wm.player.charisma}, character_class: {wm.player.character_class}, name: {wm.player.name}")
 	gc.FPS_CLOCK.tick(gc.FPS)

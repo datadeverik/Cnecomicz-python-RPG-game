@@ -23,7 +23,9 @@ def make_text(font, text, color, bgcolor, top, left, textwidth, formatting_dict=
 	gc.DISPLAY_SURF.blit(textSurf, textRect)
 
 def keylogger():
-	"""Returns the result of the player's keypresses, as a string."""
+	"""Returns the result of the player's keypresses, as a string.
+	Listens for backspaces and escapes.
+	Draws the typed string to the screen."""
 	user_string = ""
 	while True:
 		for event in gc.pygame.event.get():
@@ -151,8 +153,8 @@ class TextBox:
 						self.option_str = key
 					response_index += 1
 
-	def get_option_str(self):
-		return 
+	# def get_option_str(self):
+	# 	return 
 
 
 	def generate_options_rect(self):
@@ -197,11 +199,12 @@ class DialogueManager:
 				header_text=self.entity_object.name + ":", 
 				main_rect=gc.SPEECH_BUBBLE_MAIN_RECT, 
 				main_text=node.text, 
-				options_dict={},
 				main_formatting_dict=node.formatting_dict
 			)
+			self.textbox.run()
 			node.assign_user_text_to_variable(keylogger())
 			self.textbox.option_str = "A"
+			self.select_response()
 		elif not node.is_text_entry_node and self.textbox is None:
 			self.textbox = TextBox(
 				frame_rect=gc.SPEECH_BUBBLE_FRAME_RECT, 
