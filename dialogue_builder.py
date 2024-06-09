@@ -42,9 +42,9 @@ def keylogger():
 			text = "> " + user_string, 
 			color = gc.BLACK, 
 			bgcolor = gc.WHITE, 
-			top = gc.SPEECH_BUBBLE_BOTTOM - 2 * gc.SPEECHBUBBLEMARGIN + gc.FONT_SIZE, 
-			left = gc.SPEECH_BUBBLE_LEFT + gc.SPEECHBUBBLEMARGIN,
-			textwidth = gc.SPEECH_BUBBLE_WIDTH - 2 * gc.SPEECHBUBBLEMARGIN,
+			top = gc.SPEECH_BUBBLE_BOTTOM - 2 * gc.MARGIN + gc.FONT_SIZE, 
+			left = gc.SPEECH_BUBBLE_LEFT + gc.MARGIN,
+			textwidth = gc.SPEECH_BUBBLE_WIDTH - 2 * gc.MARGIN,
 		)
 		gc.pygame.display.update()
 
@@ -191,10 +191,17 @@ class DialogueManager:
 	def update_textbox(self):
 		node = self.entity_object.dialogue_dict[self.entity_object.current_dialogue_node]
 		if node.is_text_entry_node and self.textbox is None:
-			# self.textbox = TextBox(
-			# 
-			# )
-			pass
+			self.textbox = TextBox(
+				frame_rect=gc.SPEECH_BUBBLE_FRAME_RECT, 
+				header_rect=gc.SPEECH_BUBBLE_HEADER_RECT, 
+				header_text=self.entity_object.name + ":", 
+				main_rect=gc.SPEECH_BUBBLE_MAIN_RECT, 
+				main_text=node.text, 
+				options_dict={},
+				main_formatting_dict=node.formatting_dict
+			)
+			node.assign_user_text_to_variable(keylogger())
+			self.textbox.option_str = "A"
 		elif not node.is_text_entry_node and self.textbox is None:
 			self.textbox = TextBox(
 				frame_rect=gc.SPEECH_BUBBLE_FRAME_RECT, 
