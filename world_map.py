@@ -56,6 +56,34 @@ ENTITIES = [
 #BELOW THIS POINT IS DIALOGUE#
 ##############################
 
+character_creator_node_0 = db.Node(text="Welcome to the character creator. First, select how you will generate your stats.", 
+	responses={
+		"A" : db.Response("Extreme.", 1, [
+			lambda: setattr(player, "charisma", dr.roll_x_d_n_and_keep_highest_k(3,20,1)),
+			lambda: setattr(player, "constitution", dr.roll_x_d_n_and_keep_highest_k(3,20,1)),
+			lambda: setattr(player, "dexterity", dr.roll_x_d_n_and_keep_highest_k(3,20,1)),
+			lambda: setattr(player, "intelligence", dr.roll_x_d_n_and_keep_highest_k(3,20,1)),
+			lambda: setattr(player, "strength", dr.roll_x_d_n_and_keep_highest_k(3,20,1)),
+			lambda: setattr(player, "wisdom", dr.roll_x_d_n_and_keep_highest_k(3,20,1))
+			]),
+		"B" : db.Response("Standard.", 1, [
+			lambda: setattr(player, "charisma", dr.roll_x_d_n_and_keep_highest_k(3,10,2)),
+			lambda: setattr(player, "constitution", dr.roll_x_d_n_and_keep_highest_k(3,10,2)),
+			lambda: setattr(player, "dexterity", dr.roll_x_d_n_and_keep_highest_k(3,10,2)),
+			lambda: setattr(player, "intelligence", dr.roll_x_d_n_and_keep_highest_k(3,10,2)),
+			lambda: setattr(player, "strength", dr.roll_x_d_n_and_keep_highest_k(3,10,2)),
+			lambda: setattr(player, "wisdom", dr.roll_x_d_n_and_keep_highest_k(3,10,2))
+			]),
+		"C" : db.Response("Classic.", 1, [
+			lambda: setattr(player, "charisma", dr.roll_x_d_n(3,6)),
+			lambda: setattr(player, "constitution", dr.roll_x_d_n(3,6)),
+			lambda: setattr(player, "dexterity", dr.roll_x_d_n(3,6)),
+			lambda: setattr(player, "intelligence", dr.roll_x_d_n(3,6)),
+			lambda: setattr(player, "strength", dr.roll_x_d_n(3,6)),
+			lambda: setattr(player, "wisdom", dr.roll_x_d_n(3,6))
+			]),
+	})
+
 character_creator_node_1 = db.Node(text="Your stats are {charisma} charisma, "\
 	"{constitution} constitution, {dexterity} dexterity, {intelligence} intelligence, "\
 	"{strength} strength, and {wisdom} wisdom. Next, choose your class.", 
@@ -72,12 +100,12 @@ character_creator_node_1 = db.Node(text="Your stats are {charisma} charisma, "\
 			"J" : db.Response("Warlock", 2, [lambda: setattr(player, "character_class", "Warlock")]),
 	},
 	formatting_dict={
-		"charisma" : player.charisma, 
-		"constitution" : player.constitution,
-		"dexterity" : player.dexterity,
-		"intelligence" : player.intelligence,
-		"strength" : player.strength,
-		"wisdom" : player.wisdom
+		"charisma" : lambda: player.charisma, 
+		"constitution" : lambda: player.constitution,
+		"dexterity" : lambda: player.dexterity,
+		"intelligence" : lambda: player.intelligence,
+		"strength" : lambda: player.strength,
+		"wisdom" : lambda: player.wisdom
 	}
 )
 
@@ -103,32 +131,7 @@ character_creator_node_3 = db.Node(text="Your name is {name}.",
 )
 
 character_creator.dialogue_dict = {
-	0 : db.Node("Welcome to the character creator. First, select how you will generate your stats.", {
-		"A" : db.Response("Extreme.", 1, [
-			lambda: setattr(player, "charisma", dr.roll_x_d_n_and_keep_highest_k(3,20,1)),
-			lambda: setattr(player, "constitution", dr.roll_x_d_n_and_keep_highest_k(3,20,1)),
-			lambda: setattr(player, "dexterity", dr.roll_x_d_n_and_keep_highest_k(3,20,1)),
-			lambda: setattr(player, "intelligence", dr.roll_x_d_n_and_keep_highest_k(3,20,1)),
-			lambda: setattr(player, "strength", dr.roll_x_d_n_and_keep_highest_k(3,20,1)),
-			lambda: setattr(player, "wisdom", dr.roll_x_d_n_and_keep_highest_k(3,20,1))
-			]),
-		"B" : db.Response("Standard.", 1, [
-			lambda: setattr(player, "charisma", dr.roll_x_d_n_and_keep_highest_k(3,10,2)),
-			lambda: setattr(player, "constitution", dr.roll_x_d_n_and_keep_highest_k(3,10,2)),
-			lambda: setattr(player, "dexterity", dr.roll_x_d_n_and_keep_highest_k(3,10,2)),
-			lambda: setattr(player, "intelligence", dr.roll_x_d_n_and_keep_highest_k(3,10,2)),
-			lambda: setattr(player, "strength", dr.roll_x_d_n_and_keep_highest_k(3,10,2)),
-			lambda: setattr(player, "wisdom", dr.roll_x_d_n_and_keep_highest_k(3,10,2))
-			]),
-		"C" : db.Response("Classic.", 1, [
-			lambda: setattr(player, "charisma", dr.roll_x_d_n(3,6)),
-			lambda: setattr(player, "constitution", dr.roll_x_d_n(3,6)),
-			lambda: setattr(player, "dexterity", dr.roll_x_d_n(3,6)),
-			lambda: setattr(player, "intelligence", dr.roll_x_d_n(3,6)),
-			lambda: setattr(player, "strength", dr.roll_x_d_n(3,6)),
-			lambda: setattr(player, "wisdom", dr.roll_x_d_n(3,6))
-			]),
-	}),
+	0 : character_creator_node_0,
 	1 : character_creator_node_1,
 	2 : character_creator_node_2,
 	3 : character_creator_node_3,

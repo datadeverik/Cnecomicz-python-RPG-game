@@ -191,6 +191,7 @@ class DialogueManager:
 			self.end_dialogue()
 
 	def update_textbox(self):
+		self.refresh_formatting_dict_in_dialogue_nodes()
 		node = self.entity_object.dialogue_dict[self.entity_object.current_dialogue_node]
 		if node.is_text_entry_node and self.textbox is None:
 			self.textbox = TextBox(
@@ -227,10 +228,10 @@ class DialogueManager:
 				self.textbox.option_index = 0
 		self.textbox.run()
 
-	def refresh_formatting_dict_in_dialogue_nodes():
-		
-		pass
-
+	def refresh_formatting_dict_in_dialogue_nodes(self):
+		# pseudocode:
+		for key, node in self.entity_object.dialogue_dict.items():
+			node.formatting_dict = node.formatting_dict
 
 
 			
