@@ -1,9 +1,9 @@
-import cpu_behaviors    as cb
-import dialogue_builder as db
-import dice_roller      as dr
-import entity_manager   as em
-import global_constants as gc
-import player_character as pc
+import cnerpg.cpu_behaviors    as cb
+import cnerpg.dialogue_builder as db
+import cnerpg.dice_roller      as dr
+import cnerpg.entity_manager   as em
+import cnerpg.global_constants as gc
+import cnerpg.player_character as pc
 
 player = pc.Player(x=0, y=0)
 

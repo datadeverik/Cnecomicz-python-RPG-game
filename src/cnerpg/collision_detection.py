@@ -1,7 +1,7 @@
 import math
 
-import global_constants as gc
-import world_map        as wm
+import cnerpg.global_constants as gc
+import cnerpg.world_map        as wm
 
 class CollisionDetector:
 	def __init__(self, player_object):

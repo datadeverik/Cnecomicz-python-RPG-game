@@ -1,4 +1,4 @@
-import global_constants as gc
+import cnerpg.global_constants as gc
 
 def make_text(font, text, color, bgcolor, top, left, textwidth, formatting_dict={}):
 	line = 0
