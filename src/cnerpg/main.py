@@ -8,7 +8,10 @@ import cnerpg.turn_manager        as tm
 import cnerpg.world_map           as wm
 
 
-
+camera = False
+collisiondetector = False
+dialoguemanager = False
+turntracker = False
 
 def main():
     camera = cc.Camera(x=wm.player.x, y=wm.player.y)
