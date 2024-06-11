@@ -1,7 +1,7 @@
 import math
 
-import dialogue_builder as db
-import global_constants as gc
+import cnerpg.dialogue_builder as db
+import cnerpg.global_constants as gc
 		
 
 class Behavior:

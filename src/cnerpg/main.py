@@ -1,19 +1,23 @@
 import sys
 
-import camera_controller   as cc
-import collision_detection as cd
-import dialogue_builder    as db
-import global_constants    as gc
-import turn_manager        as tm
-import world_map           as wm
+import cnerpg.camera_controller   as cc
+import cnerpg.collision_detection as cd
+import cnerpg.dialogue_builder    as db
+import cnerpg.global_constants    as gc
+import cnerpg.turn_manager        as tm
+import cnerpg.world_map           as wm
 
 
+camera = False
+collisiondetector = False
+dialoguemanager = False
+turntracker = False
 
-
-camera = cc.Camera(x=wm.player.x, y=wm.player.y)
-collisiondetector = cd.CollisionDetector(player_object=wm.player)
-dialoguemanager = db.DialogueManager(player_object=wm.player, entity_object=None)
-turntracker = tm.TurnTracker(player_object=wm.player, list_of_entities=wm.ENTITIES)
+def main():
+    camera = cc.Camera(x=wm.player.x, y=wm.player.y)
+    collisiondetector = cd.CollisionDetector(player_object=wm.player)
+    dialoguemanager = db.DialogueManager(player_object=wm.player, entity_object=None)
+    turntracker = tm.TurnTracker(player_object=wm.player, list_of_entities=wm.ENTITIES)
 
 def quit_game():
 	gc.pygame.quit()

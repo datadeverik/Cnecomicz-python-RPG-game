@@ -1,10 +1,10 @@
 import math
 import random
 
-import dialogue_builder as db
-import dice_roller      as dr
-import global_constants as gc
-import world_map        as wm # FIX THIS
+import cnerpg.dialogue_builder as db
+import cnerpg.dice_roller      as dr
+import cnerpg.global_constants as gc
+import cnerpg.world_map        as wm # FIX THIS
 
 class TurnTracker:
 	def __init__(self, player_object, list_of_entities):

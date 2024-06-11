@@ -1,6 +1,6 @@
 import math
 
-import global_constants as gc
+import cnerpg.global_constants as gc
 
 class Camera:
 	def __init__(self, x, y):
