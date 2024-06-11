@@ -1,10 +1,10 @@
 import cnerpg.global_constants as gc
 
 def run_lambdas(formatting_dict):
-	y = { }
+	updated_formatting_dict = { }
 	for key, value in formatting_dict.items():
-		y[key] = value()
-	return y
+		updated_formatting_dict[key] = value()
+	return updated_formatting_dict
 
 def make_text(font, text, color, bgcolor, top, left, textwidth, formatting_dict={}):
 	line = 0
