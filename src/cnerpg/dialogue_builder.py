@@ -1,8 +1,15 @@
 import cnerpg.global_constants as gc
 
+def run_lambdas(formatting_dict):
+	y = { }
+	for key, value in formatting_dict.items():
+		y[key] = value()
+	return y
+
 def make_text(font, text, color, bgcolor, top, left, textwidth, formatting_dict={}):
 	line = 0
-	plain_text = text.format(**formatting_dict)
+	updated_formatting_dict = run_lambdas(formatting_dict)
+	plain_text = text.format(**updated_formatting_dict)
 	words = plain_text.split(" ")
 	current_line = ""
 	for word in words:
