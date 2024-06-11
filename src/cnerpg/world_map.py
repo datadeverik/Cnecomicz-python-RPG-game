@@ -114,7 +114,7 @@ character_creator_node_2 = db.Node(text="You selected {character_class}. What is
 		"A" : db.Response("Yaay", 3, []),
 	},
 	formatting_dict={
-		"character_class" : player.character_class
+		"character_class" : lambda: player.character_class
 	},
 	is_text_entry_node=True,
 	class_owning_attr=player,
@@ -126,7 +126,7 @@ character_creator_node_3 = db.Node(text="Your name is {name}.",
 		"A" : db.Response("Thank you. Goodbye.", 3, is_end_of_dialogue=True),
 	},
 	formatting_dict={
-		"name" : player.name
+		"name" : lambda: player.name
 	}
 )
 
