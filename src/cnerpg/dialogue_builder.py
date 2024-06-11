@@ -180,7 +180,6 @@ class DialogueManager:
 
 
 	def end_dialogue(self):   
-		print(f"print 2: {self.entity_object}")
 		self.player_object.in_dialogue = False
 		self.entity_object.in_dialogue = False
 		self.entity_object             = None
@@ -189,7 +188,6 @@ class DialogueManager:
 		selected = self.entity_object.dialogue_dict[self.entity_object.current_dialogue_node].responses[self.textbox.option_str]
 		if selected.trigger_list != []:
 			for trigger in selected.trigger_list:
-				print(f"print 1: {self.entity_object}")
 				trigger()
 		self.entity_object.current_dialogue_node = selected.next_dialogue_index
 		self.textbox = None

@@ -16,7 +16,6 @@ import cnerpg.world_map           as wm
 def main():
 	global camera, collisiondetector, dialoguemanager, turntracker
 	camera = cc.Camera(x=wm.player.x, y=wm.player.y)
-	print(camera)
 	collisiondetector = cd.CollisionDetector(player_object=wm.player)
 	dialoguemanager = db.DialogueManager(player_object=wm.player, entity_object=None)
 	turntracker = tm.TurnTracker(player_object=wm.player, list_of_entities=wm.ENTITIES)
@@ -70,7 +69,6 @@ def main():
 		if dialoguemanager.entity_object in wm.ENTITIES:
 			dialoguemanager.run()
 		draw_to_screen()
-		print(f"charisma: {wm.player.charisma}, character_class: {wm.player.character_class}, name: {wm.player.name}")
 		gc.FPS_CLOCK.tick(gc.FPS)
 
 def quit_game():
