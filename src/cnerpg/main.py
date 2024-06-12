@@ -4,23 +4,54 @@ import cnerpg.camera_controller   as cc
 import cnerpg.collision_detection as cd
 import cnerpg.dialogue_builder    as db
 import cnerpg.global_constants    as gc
+import cnerpg.player_character    as pc
 import cnerpg.turn_manager        as tm
 import cnerpg.world_map           as wm
 
+class Game:
+	def __init__(self, entities_list, blocks_list):
+		self.player            = pc.Player(x=0, y=0, blocks_list=BLOCKS, entities_list=ENTITIES)
+		self.entities_list     = entities_list
+		self.blocks_list       = blocks_list
+		self.camera            = cc.Camera(x=self.player_object.x, y=self.player_object.y)
+		self.collisiondetector = cd.CollisionDetector(player_object=self.player_object, blocks_list=self.blocks_list, entities_list=self.entities_list)
+		self.dialoguemanager   = db.DialogueManager(player_object=self.player_object, entity_object=None)
+		self.turntracker       = tm.TurnTracker(player_object=self.player_object, list_of_entities=self.entities_list)
+
+		self.state             = "Overworld" # "In dialogue", "In combat", ...
+
+	def handle_events(self):
+		if self.state == "Overworld":
+			for event in gc.pygame.event.get():
+				if event.type == gc.QUIT:
+					return "quit"
+				if event.type == 
+
+	def update(self, event):
+		if event == "quit":
+			quit_game()
+		elif event == "blah":
+			pass
+
+	def draw(self):
+		pass
+
+game = Game(blah, blah, blah)
+
+while True:
+	event = game.handle_events()
+	game.update(event)
+	game.draw()
+
 def main():
-	global camera, collisiondetector, dialoguemanager, turntracker
-	camera = cc.Camera(x=wm.player.x, y=wm.player.y)
-	collisiondetector = cd.CollisionDetector(player_object=wm.player, blocks_list=wm.BLOCKS, entities_list=wm.ENTITIES)
-	dialoguemanager = db.DialogueManager(player_object=wm.player, entity_object=None)
-	turntracker = tm.TurnTracker(player_object=wm.player, list_of_entities=wm.ENTITIES)
 	while True:
 		gc.DISPLAY_SURF.fill(gc.WHITE)
 		wm.player.run()
 		for entity in wm.ENTITIES:
 			entity.run()
 		for event in gc.pygame.event.get():
-			if event.type == gc.QUIT:
-				quit_game()
+			# if event.type == gc.QUIT:
+			# 	quit_game()
 			if event.type == gc.KEYDOWN:
 				if event.key == gc.K_ESCAPE:
 					quit_game()
