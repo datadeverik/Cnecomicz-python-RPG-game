@@ -7,16 +7,10 @@ import cnerpg.global_constants    as gc
 import cnerpg.turn_manager        as tm
 import cnerpg.world_map           as wm
 
-
-# camera = False
-# collisiondetector = False
-# dialoguemanager = False
-# turntracker = False
-
 def main():
 	global camera, collisiondetector, dialoguemanager, turntracker
 	camera = cc.Camera(x=wm.player.x, y=wm.player.y)
-	collisiondetector = cd.CollisionDetector(player_object=wm.player)
+	collisiondetector = cd.CollisionDetector(player_object=wm.player, blocks_list=wm.BLOCKS, entities_list=wm.ENTITIES)
 	dialoguemanager = db.DialogueManager(player_object=wm.player, entity_object=None)
 	turntracker = tm.TurnTracker(player_object=wm.player, list_of_entities=wm.ENTITIES)
 	while True:

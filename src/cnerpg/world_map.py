@@ -5,8 +5,6 @@ import cnerpg.entity_manager   as em
 import cnerpg.global_constants as gc
 import cnerpg.player_character as pc
 
-player = pc.Player(x=0, y=0)
-
 BLOCKS = [
 	gc.pygame.Rect(100,100,10,10),
 	gc.pygame.Rect(100,110,10,10),
@@ -50,7 +48,7 @@ ENTITIES = [
 	guy1,
 ]
 
-
+player = pc.Player(x=0, y=0, blocks_list=BLOCKS, entities_list=ENTITIES)
 
 ##############################
 #BELOW THIS POINT IS DIALOGUE#

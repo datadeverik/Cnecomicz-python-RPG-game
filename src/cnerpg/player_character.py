@@ -1,12 +1,13 @@
 import math
 
 import cnerpg.global_constants as gc
-import cnerpg.world_map        as wm
 
 class Player:
-	def __init__(self, x, y):
+	def __init__(self, x, y, blocks_list, entities_list):
 		self.x                        = x
 		self.y                        = y
+		self.blocks_list              = blocks_list
+		self.entities_list            = entities_list
 		self.width                    = 30
 		self.height                   = 30
 		self.rect                     = gc.pygame.Rect(self.x, self.y, self.width, self.height)
@@ -80,7 +81,7 @@ class Player:
 		result = None
 		future_x, future_y = self.next_destination(angle, x, y, speed)
 		future_rect = gc.pygame.Rect(future_x, future_y, self.height, self.width)
-		for block in wm.BLOCKS:
+		for block in self.blocks_list:
 			if gc.pygame.Rect.colliderect(future_rect, block):
 				result = block
 		return result
