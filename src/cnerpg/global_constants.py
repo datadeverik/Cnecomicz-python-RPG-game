@@ -1,13 +1,12 @@
 import pygame
 from pygame.locals import *
 
-pygame.init()
+
 
 FPS = 60
-FPS_CLOCK = pygame.time.Clock()
 WINDOW_WIDTH = 1080
 WINDOW_HEIGHT = 720
-DISPLAY_SURF = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
+
 
 FONT_SIZE = 20
 BASIC_FONT = pygame.font.Font('freesansbold.ttf', FONT_SIZE)

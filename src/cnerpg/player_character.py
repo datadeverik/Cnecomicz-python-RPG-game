@@ -3,11 +3,11 @@ import math
 import cnerpg.global_constants as gc
 
 class Player:
-	def __init__(self, x, y, blocks_list, entities_list):
+	def __init__(self, x, y):
 		self.x                        = x
 		self.y                        = y
-		self.blocks_list              = blocks_list
-		self.entities_list            = entities_list
+		# self.blocks_list              = blocks_list
+		# self.entities_list            = entities_list
 		self.width                    = 30
 		self.height                   = 30
 		self.rect                     = gc.pygame.Rect(self.x, self.y, self.width, self.height)
@@ -77,7 +77,7 @@ class Player:
 				self.angle = 2 * math.pi
 		return direction
 
-	def the_thing_youre_about_to_hit(self, angle, x, y, speed):
+	def the_thing_youre_about_to_hit(self, angle, x, y, speed, blocks_list):
 		result = None
 		future_x, future_y = self.next_destination(angle, x, y, speed)
 		future_rect = gc.pygame.Rect(future_x, future_y, self.height, self.width)
@@ -90,16 +90,16 @@ class Player:
 	def next_destination(self, angle, x, y, speed):
 		return x + speed * math.cos(angle), y - speed * math.sin(angle)
 
-	def player_movement(self):
+	def player_movement(self, blocks_list):
 		if self.get_direction() != "" and self.can_move:
-			block = self.the_thing_youre_about_to_hit(self.angle, self.x, self.y, self.speed) 
+			block = self.the_thing_youre_about_to_hit(self.angle, self.x, self.y, self.speed, blocks_list) 
 			if block is None:
 				self.x, self.y = self.next_destination(self.angle, self.x, self.y, self.speed)
 			else:
-				detect_left  = self.the_thing_youre_about_to_hit(math.pi, self.x, self.y, self.speed) 
-				detect_right = self.the_thing_youre_about_to_hit(0, self.x, self.y, self.speed) 
-				detect_up    = self.the_thing_youre_about_to_hit(1/2 * math.pi, self.x, self.y, self.speed) 
-				detect_down  = self.the_thing_youre_about_to_hit(3/2 * math.pi, self.x, self.y, self.speed) 
+				detect_left  = self.the_thing_youre_about_to_hit(math.pi, self.x, self.y, self.speed, blocks_list) 
+				detect_right = self.the_thing_youre_about_to_hit(0, self.x, self.y, self.speed, blocks_list) 
+				detect_up    = self.the_thing_youre_about_to_hit(1/2 * math.pi, self.x, self.y, self.speed, blocks_list) 
+				detect_down  = self.the_thing_youre_about_to_hit(3/2 * math.pi, self.x, self.y, self.speed, blocks_list) 
 				match self.get_direction():
 					case "upleft":
 						if detect_up is None:
@@ -126,8 +126,11 @@ class Player:
 
 
 
-	def run(self):
-		self.player_movement()
-		self.can_move = True
-		if self.in_dialogue:
-			self.can_move = False
+	# def run(self):
+	# 	pass
+		# if game state allows player movement
+		# self.player_movement() move to main
+		# replace these with game state strings
+		# self.can_move = True
+		# if self.in_dialogue:
+		# 	self.can_move = False
